@@ -6085,3 +6085,315 @@ abstract helper method `countLetter`, given string and a letter, returns the cou
 // console.log(zeroesToEnd([4, 4, '0', 5])); // [4, 4, '0', 5]
 // console.log(zeroesToEnd([0, 0])); // [0, 0]
 // console.log(zeroesToEnd([])); // []
+
+
+
+
+
+
+
+
+
+
+// Puzzle Pieces
+// // Write a function that takes two arrays and adds the first element in the first array with the first element in the second array, the second element in the first array with the second element in the second array, etc, etc. Return true if all element combinations add up to the same number. Otherwise, return false.
+
+// // Examples
+// // Notes
+// // Each array will have at least one element.
+// // Return false if both arrays are of different length.
+
+// /*
+// **Problem**
+// =>objective: given two arrays, return true if the elements at the same indexes in each array sum to the same number for each index
+
+// =>input: 
+//   - two arrays
+//   - if different length --> return false
+//   - if both empty --> return true
+//   - sparse?  --> no
+//   - non integer elements? --> return false if any are in either array
+
+// =>output: 
+//   - boolean
+
+// =>requirements:
+
+// =>explicit  - add the elements of each array that are in the same index
+//             - return true if all element combinations add up to the same number
+
+// =>implicit  - for this to return true, all combinations must add up to the first combination
+
+// => test/edge cases -
+
+// => Mental Model: Describe the solution in 1-2 sentences. 
+// - guard clause for empty arrays, non equal length arrays, non integer elements arrays
+// - save the first combination's sum
+// - verify that every sum after that is equal to the first sum
+
+// **Data Structure**
+// - input: arrays
+// - temp: arrays (iteration)
+// - output: boolean
+
+// **Implementation Notes**
+
+
+// **Algorithm**
+// - if both arrays are empty, return true
+// - if the arrays are not the same length, return false
+// - if either array contains non-integer elements, return false
+// - declare variable `firstSum`, assign it to the sum of the first elements in each array
+// - verify that the sum of every index (for each array) is equal to `firstSum`
+//   - if not, return false
+
+// **Check algorithm against test cases
+// */
+
+// function allIntegerElements(arr) {
+//   return arr.every(el => Number.isInteger(el));
+// }
+
+// function puzzlePieces(arr1, arr2) {
+//   if (arr1.length === 0 && arr2.length === 0) return true;
+//   if (arr1.length !== arr2.length) return false;
+//   if (!allIntegerElements(arr1) || !allIntegerElements(arr2)) return false;
+//   let firstSum = arr1[0] + arr2[0];
+//   return arr1.every((integer, index) => integer + arr2[index] === firstSum);
+// }
+
+// console.log(puzzlePieces([1, 2], [-1, []]) === false); 
+// console.log(puzzlePieces([9, 8, 7], [7, 8, 9, 10]) === false);
+// console.log(puzzlePieces([], []) === true);
+// console.log(puzzlePieces([1, 2, 3, 4], [4, 3, 2, 1]) === true);
+// console.log(puzzlePieces([1, 8, 5, 0, -1, 7], [0, -7, -4, 1, 2, -6]) === true);
+// console.log(puzzlePieces([1, 2], [-1, -1]) === false);
+
+
+
+
+// Squishing an Array
+// // Write a function that squishes an array from the left or the right.
+
+// // Examples
+// // Notes
+// // Squishing from the left is to successively sum the first two elements of an array (shortening the array in the process).
+// // Squishing from the right is to successively sum the last two elements of an array.
+// // Include the original array as the first element in either squish.
+// // Return an empty array if the input is an empty array.
+
+// /*
+// **Problem**
+// =>objective: given an array, squish it from the left or right
+
+// =>input: 
+//   - an array and a string indicating a direction
+//   - empty array --> return an empty array 
+//   - string is not left or right --> return the array as is
+//   - elements are integers, always
+
+// =>output: 
+//   - squished array (nested arrays of each step of the squishing)
+
+// =>requirements:
+
+// =>explicit  - left --> adding the first two elements of the array, until you only have one element left
+//             - right --> adding the last two elements of the array, until you only have one element left
+//             - include the initial array
+
+// =>implicit  - order matters direction matters
+//             - no mutation of original array
+
+// => test/edge cases - 
+
+// // squish([1, 2, 3, 4, 5], "left")
+// // ➞ [[1, 2, 3, 4, 5], [3, 3, 4, 5], [6, 4, 5], [10, 5], [15]]
+// OG, first two sumed, first three summed, first four summed, all summed
+// // squish([1, 2, 3, 4, 5], "right")
+// // ➞ [[1, 2, 3, 4, 5], [1, 2, 3, 9], [1, 2, 12], [1, 14], [15]]
+// OG, last two summed, last three summed, last four summed, all summed
+
+// // squish([1, 0, 2, -3], "left")
+// // ➞ [[1, 0, 2, -3], [1, 2, -3], [3, -3], [0]]
+// result = [[1, 0, 2, -3], ];
+// copy = OG;
+// looping as long as copy length > 1
+// firstNum = copy spliced at the first element
+// reassign first element of copy to firstNum + first element
+// push this to result
+
+
+// // squish([1, 0, 2, -3], "right")
+// // ➞ [[1, 0, 2, -3], [1, 0, -1], [1, -1], [0]]
+// result = [];
+// copy = OG;
+// looping as long as copy length > 1
+// lastNum = spliced last num from copy
+// reassign the last element in copy to last el + lastNum
+// push to result
+
+// // squish([], "right")
+// // ➞ []
+
+// => Mental Model: Describe the solution in 1-2 sentences. 
+// - storage for the result
+// - add the two numbers that need to be added, push this array to result
+// repeat until you only have one element in the copy
+// push that 
+
+// **Data Structure**
+
+
+// **Implementation Notes**
+
+
+// **Algorithm**
+// - if `array` is empty, return an empty array
+// - if `direction` is not `left` or `right`, return the array;
+// - declare variable `arraySquished`, assign to an array with the given `array` as the only element
+// - declare variable `arrCopy`, assign to a copy of the given `array`
+// - while loop (condition `arrCopy` length > 1)
+//   - declare variable `numberToBeAdded`
+//   - if direction is right
+//     - assign `numberToBeAdded` to the value at the last index (spliced)
+//     - reassign `arrCopy` at the last element to be equal to the value at that index currently plus `numberToBeAdded`
+//   - otherwise 
+//     - assign `numberToBeAdded`, to the value at the first Index (spliced)
+//     - reassign `arrCopy` at the index 0 to be equal to value at index 0 plus `numberToBeAdded`
+//   - push `arrCopy` to `arraySquished`
+// - only last push of `arrCopy` to `arraySquished`
+// - return `arraySquished`
+
+// **Check algorithm against test cases
+// */
+
+// function squish(array, direction) {
+//   if (array.length === 0) return [];
+//   if (direction !== 'left' && direction !== 'right') return array;
+//   let arraySquished = [];
+//   arraySquished.push(array);
+//   let arrCopy = array.slice(0);
+//   while (arrCopy.length > 1) {
+//     let numberToBeAdded;
+//     if (direction === 'right') {
+//       numberToBeAdded = arrCopy.splice(-1)[0];
+//       arrCopy[arrCopy.length - 1] = arrCopy[arrCopy.length - 1] + numberToBeAdded;
+//     } else {
+//       numberToBeAdded = arrCopy.splice(0, 1)[0];
+//       arrCopy[0] = arrCopy[0] + numberToBeAdded;
+//     }
+//     arraySquished.push(arrCopy.slice(0));
+//   }
+//   return arraySquished;
+// }
+
+// console.log(squish([], "right"));
+// // // ➞ []
+
+// console.log(squish([1, 2, 3], "ght"));
+// // // ➞ [1, 2, 3]
+
+// console.log(squish([1, 2, 3, 4, 5], "left"));
+// // // ➞ [[1, 2, 3, 4, 5], [3, 3, 4, 5], [6, 4, 5], [10, 5], [15]]
+
+// console.log(squish([1, 2, 3, 4, 5], "right"));
+// // ➞ [[1, 2, 3, 4, 5], [1, 2, 3, 9], [1, 2, 12], [1, 14], [15]]
+
+// console.log(squish([1, 0, 2, -3], "left"));
+// // // ➞ [[1, 0, 2, -3], [1, 2, -3], [3, -3], [0]]
+
+// console.log(squish([1, 0, 2, -3], "right"));
+// // // ➞ [[1, 0, 2, -3], [1, 0, -1], [1, -1], [0]]
+
+
+
+
+
+
+// Combined Consecutive Sequence
+// // Write a function that returns true if two arrays, when combined, form a consecutive sequence. A consecutive sequence is a sequence without any gaps in the integers, e.g. 1, 2, 3, 4, 5 is a consecutive sequence, but 1, 2, 4, 5 is not.
+
+// // Examples
+
+// // Notes
+// // The input arrays will have unique values.
+// // The input arrays can be in any order.
+
+
+
+// /*
+// **Problem**
+// =>objective: given two arrays, return true if their elements form a consecutive sequence without any gaps (always 1 away)
+
+// =>input: 
+//   - two arrays
+//   - empty --> continue, it just won't contribute
+//   - both emmpty --> return false
+//   - integers
+
+// =>output: 
+//   - boolean true/false
+
+// =>requirements:
+
+// =>explicit  - a consecutive sequence is a sequence without any gaps in the integers
+//             - input arrays have unique values
+//             - input arrays can be in any order
+
+// =>implicit  - 
+
+// => test/edge cases - 
+
+// => Mental Model: Describe the solution in 1-2 sentences. 
+// - combine elements, sort them, check that each element is 1 away from the previous element
+
+// **Data Structure**
+// - array to hold all the elements
+
+// **Implementation Notes**
+// - you can skip the first element, 
+
+// **Algorithm**
+// - if both arrays are empty, return false
+// - declare variable `allElemsSorted`, this will combine the elements of both array and sort them in ascending order
+// - for loop over the elements in the array
+//   - skip the first
+//   - if this element equals the last element + 1, continue
+//   - otherwise, return false
+// - return true
+
+// **Check algorithm against test cases
+// */
+
+// function consecutiveCombo(arr1, arr2) {
+//   if (arr1.length === 0 && arr2.length === 0) return false;
+//   let allElemsSorted = arr1.concat(arr2).sort((a, b) => a - b);
+//   for (let index = 0; index < allElemsSorted.length; index += 1) {
+//     if (index === 0) continue;
+//     if (allElemsSorted[index] === allElemsSorted[index - 1] + 1) {
+//       continue;
+//     } else {
+//       return false;
+//     } 
+//   }
+//   return true;
+// }
+
+// console.log(consecutiveCombo([7, 4, 5, 1], [2, 3, 6]) === true);
+// console.log(consecutiveCombo([1, 4, 6, 5], [2, 7, 8, 9]) === false);
+// console.log(consecutiveCombo([1, 4, 5, 6], [2, 3, 7, 8, 10]) === false);
+// console.log(consecutiveCombo([44, 46], [45]) === true);
+// console.log(consecutiveCombo([44, 46], []) === false);
+// console.log(consecutiveCombo([], []) === false);
+// console.log(consecutiveCombo([1, 4, 5, 7], [2, 3, 6]) === true)
+// console.log(consecutiveCombo([1, 4, 5, 6], [2, 7, 8, 9]) === false)
+// console.log(consecutiveCombo([1, 4, 5, 6], [2, 3, 7, 8, 10]) === false)
+// console.log(consecutiveCombo([7, 5, 4, 1], [2, 3, 6, 8]) === true)
+// console.log(consecutiveCombo([33, 34, 40], [39, 38, 37, 36, 35, 32, 31, 30]) === true)
+// console.log(consecutiveCombo([1, 4, 5, 6], [2, 3, 7, 8, 10]) === false)
+// console.log(consecutiveCombo([44, 46], [45]) === true)
+// console.log(consecutiveCombo([4, 3, 1], [2, 5]) === true)
+// console.log(consecutiveCombo([4, 3, 1], [2, 5, 7, 6]) === true)
+// console.log(consecutiveCombo([4, 3, 1], [7, 6, 5]) === false)
+// console.log(consecutiveCombo([4, 3, 1], [0, 7, 6, 5]) === false)
+// console.log(consecutiveCombo([44, 46], [45]) === true)

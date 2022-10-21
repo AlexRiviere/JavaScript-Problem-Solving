@@ -81,15 +81,15 @@ Battleship field (# attempted)
 
 # Mutations Only Zero To End
 
-Puzzle Pieces
+# Puzzle Pieces
 
-Distance To Nearest Vowel
+# Distance To Nearest Vowel
 
-Abbreviations Unique
+# Abbreviations Unique
 
 # Single Letter Swaps
 
-Squishing an Array
+# Squishing an Array
 
 Vertical Text
 
